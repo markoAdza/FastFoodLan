@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast Food LAN — Trbovlje &amp; Hrastnik</title>
+<meta name="description" content="Fast Food LAN — kebab, jufka, jedi z žara, burgerji in pizza. Trbovlje, Trg revolucije 17D in Hrastnik, Trg Franca Kozarja 14. Pokliči 0820 55080.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Barlow+Condensed:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip" href="#cenik">Skoči na cenik</a>
+
+<!-- ============ GLAVA ============ -->
+<header class="bar">
+  <a class="bar__logo" href="#top">
+    <img src="assets/logo.png" alt="Fast Food LAN" width="46" height="46">
+    <span>Fast&nbsp;Food <b>LAN</b></span>
+  </a>
+
+  <button class="bar__burger" type="button" aria-expanded="false" aria-controls="nav" data-burger>
+    <span></span><span></span><span></span>
+    <em class="sr">Meni</em>
+  </button>
+
+  <nav class="bar__nav" id="nav" data-nav>
+    <a href="#cenik">Cenik</a>
+    <a href="#novice">Novice</a>
+    <a href="#lokacije">Kje smo</a>
+    <a class="btn btn--sun bar__call" href="tel:+38682055080">Pokliči 0820 55080</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero tex">
+  <div class="hero__in">
+    <div class="hero__txt">
+      <p class="eyebrow">Trbovlje <i>&bull;</i> Hrastnik</p>
+      <h1 class="hero__h">
+        <span>Lakota?</span>
+        <span>To rešimo</span>
+        <span>v <mark>5 minutah.</mark></span>
+      </h1>
+      <p class="hero__p">Kebab, čevapčiči z žara, burgerji in pizza.<br>
+        Vsak dan sveže pripravljeno. Vzemi s sabo ali pojej pri nas.</p>
+      <div class="hero__btns">
+        <a class="btn btn--sun" href="#cenik">Poglej cenik <i aria-hidden="true">&darr;</i></a>
+        <a class="btn btn--line" href="tel:+38682055080">Pokliči za naročilo</a>
+      </div>
+      <p class="hero__meta">
+        <span class="pill" data-openpill></span>
+        <span>Pon&ndash;pet 9.00&ndash;22.00 &nbsp;&bull;&nbsp; sob, ned 12.00&ndash;22.00</span>
+      </p>
+    </div>
+
+    <div class="hero__seal" aria-hidden="true">
+      <svg class="seal" viewBox="0 0 240 240">
+        <defs><path id="ring" d="M120,120 m-95,0 a95,95 0 1,1 190,0 a95,95 0 1,1 -190,0"/></defs>
+        <text><textPath href="#ring">KEBAB &bull; JUFKA &bull; BURGER &bull; PIZZA &bull; ŽAR &bull; POMMES &bull; </textPath></text>
+      </svg>
+      <img class="hero__seal-logo" src="assets/logo.png" alt="" width="150" height="150">
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEKOCI TRAK ============ -->
+<!-- Kartice se same sestavijo iz cenika spodaj (glej js/main.js).
+     Katera jed pride na trak dolocis z oznako data-pick v ceniku. -->
+<section class="belt-wrap" data-belt-section hidden>
+  <div class="zigline zigline--top" aria-hidden="true"></div>
+  <p class="belt-kick">Najbolj pogosto naročeno</p>
+  <div class="belt" data-belt>
+    <div class="belt__shift" data-shift>
+      <div class="belt__track" data-track></div>
+    </div>
+  </div>
+  <div class="zigline zigline--bot" aria-hidden="true"></div>
+</section>
+
+<!-- ======================================================================
+     CENIK
+     Cene spremenis kar tukaj, v vrsticah <li class="row">.
+     Oznaka data-pick pomeni, da se jed pokaze tudi na premikajocem traku.
+     ====================================================================== -->
+<section class="cenik" id="cenik">
+  <header class="cenik__head">
+    <h2 class="mega">Cenik</h2>
+    <p>Vse, kar spečemo, zavijemo in postrežemo. Brez zapletov.</p>
+  </header>
+
+  <div class="cenik__grid">
+
+    <section class="cat reveal">
+      <h3 class="tag"><span>Kebab</span></h3>
+      <ul class="rows">
+        <li class="row" data-pick data-tag="Kebab"><span class="row__n">Kebab<em>Piščančji, goveji, mešani</em></span><span class="row__d"></span><span class="row__p">5,00&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Kebab"><span class="row__n">Kebab krožnik<em>Piščančji, goveji, mešani</em></span><span class="row__d"></span><span class="row__p">6,00&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Kebab"><span class="row__n">Jufka<em>Piščančja, goveja, mešana</em></span><span class="row__d"></span><span class="row__p">5,50&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Vegi kebab</span><span class="row__d"></span><span class="row__p">4,00&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Vegi jufka</span><span class="row__d"></span><span class="row__p">4,50&nbsp;€</span></li>
+      </ul>
+    </section>
+
+    <section class="cat reveal">
+      <h3 class="tag"><span>Burgerji</span></h3>
+      <ul class="rows">
+        <li class="row" data-pick data-tag="Burger"><span class="row__n">Hamburger</span><span class="row__d"></span><span class="row__p">4,00&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Dvojni hamburger</span><span class="row__d"></span><span class="row__p">6,00&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Burger"><span class="row__n">Cheeseburger</span><span class="row__d"></span><span class="row__p">4,50&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Dvojni cheeseburger</span><span class="row__d"></span><span class="row__p">6,00&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Burger"><span class="row__n">Chicken burger</span><span class="row__d"></span><span class="row__p">4,50&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Burger"><span class="row__n">Kebab burger</span><span class="row__d"></span><span class="row__p">5,00&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Vegi burger</span><span class="row__d"></span><span class="row__p">4,00&nbsp;€</span></li>
+      </ul>
+    </section>
+
+    <section class="cat reveal">
+      <h3 class="tag"><span>Jedi z žara</span></h3>
+      <ul class="rows">
+        <li class="row" data-pick data-tag="Z žara"><span class="row__n">Pleskavica v lepinji</span><span class="row__d"></span><span class="row__p">5,50&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Pleskavica s sirom</span><span class="row__d"></span><span class="row__p">6,00&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Čevapčiči v lepinji<em>Mala porcija</em></span><span class="row__d"></span><span class="row__p">4,00&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Z žara"><span class="row__n">Čevapčiči v lepinji<em>Velika porcija</em></span><span class="row__d"></span><span class="row__p">8,00&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Z žara"><span class="row__n">Piščančji file v lepinji</span><span class="row__d"></span><span class="row__p">5,50&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Z žara"><span class="row__n">Hot dog<em>Grill dog</em></span><span class="row__d"></span><span class="row__p">2,50&nbsp;€</span></li>
+      </ul>
+    </section>
+
+    <section class="cat reveal">
+      <h3 class="tag"><span>Pizza</span></h3>
+      <ul class="rows">
+        <li class="row" data-pick data-tag="Pizza"><span class="row__n">Pizza kos</span><span class="row__d"></span><span class="row__p">2,50&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Pizza kos</span><span class="row__d"></span><span class="row__p">8,00&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Pizza"><span class="row__n">Pizza XXL</span><span class="row__d"></span><span class="row__p">15,00&nbsp;€</span></li>
+      </ul>
+    </section>
+
+    <section class="cat reveal">
+      <h3 class="tag"><span>Dodatna ponudba</span></h3>
+      <ul class="rows">
+        <li class="row" data-pick data-tag="Prigrizek"><span class="row__n">Piščančji medaljoni<em>9 kosov</em></span><span class="row__d"></span><span class="row__p">4,50&nbsp;€</span></li>
+        <li class="row" data-pick data-tag="Prigrizek"><span class="row__n">Pommes frites</span><span class="row__d"></span><span class="row__p">2,50&nbsp;€</span></li>
+      </ul>
+    </section>
+
+    <section class="cat reveal">
+      <h3 class="tag"><span>Dodatki</span></h3>
+      <ul class="rows">
+        <li class="row"><span class="row__n">Lepinja</span><span class="row__d"></span><span class="row__p">1,50&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Kajmak</span><span class="row__d"></span><span class="row__p">1,50&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Dodatki<em>Nacho sir, sir, kebab meso</em></span><span class="row__d"></span><span class="row__p">1,00&nbsp;€</span></li>
+      </ul>
+    </section>
+
+    <section class="cat reveal">
+      <h3 class="tag"><span>Pijača</span></h3>
+      <ul class="rows">
+        <li class="row"><span class="row__n">Brezalkoholne pijače</span><span class="row__d"></span><span class="row__p">1,80&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Voda, voda z okusom</span><span class="row__d"></span><span class="row__p">1,50&nbsp;€</span></li>
+        <li class="row"><span class="row__n">Energijska pijača</span><span class="row__d"></span><span class="row__p">1,50&nbsp;€</span></li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="cenik__foot">
+    <p class="fine">Vse cene so v EUR in vsebujejo DDV. Cenik velja od 18.&nbsp;12.&nbsp;2023.</p>
+    <a class="btn btn--ink" href="assets/cenik.jpg" target="_blank" rel="noopener">Prenesi cenik <i aria-hidden="true">&#8599;</i></a>
+  </footer>
+</section>
+
+<!-- ======================================================================
+     OBJAVA MESECA
+     Enkrat na mesec zamenjaj samo tri stvari v kartici spodaj:
+       1. DATUM     -> vrstica <p class="post__date">
+       2. NASLOV    -> vrstica <h3 class="post__h">
+       3. BESEDILO  -> odstavki <p> znotraj <div class="post__body">
+     Nalepko "Novo" lahko zamenjas z drugo besedo ali celo vrstico izbrises.
+     Vsega ostalega (razredov, oznak) se ne dotikaj.
+     ====================================================================== -->
+<section class="novice tex" id="novice">
+  <div class="novice__in">
+    <h2 class="tag tag--dark"><span>Novo pri nas</span></h2>
+
+    <article class="post">
+      <span class="sticker">Novo</span>
+      <p class="post__date">Avgust 2025</p>
+      <h3 class="post__h">Sem napiši naslov objave</h3>
+      <div class="post__body">
+        <p>Tukaj napiši, kaj je novega — nova jed na ceniku, spremenjen delovni čas
+        med prazniki, poletna ponudba ali karkoli drugega, kar naj gostje izvedo.</p>
+        <p>Dva ali trije stavki so dovolj. Kratko in jasno.</p>
+      </div>
+      <p class="post__sign">&mdash; ekipa Fast Food LAN</p>
+    </article>
+
+    <p class="novice__hint">Novice objavljamo enkrat na mesec.
+      Za naročila in vprašanja nas raje pokliči na <a href="tel:+38682055080">0820 55080</a>.</p>
+  </div>
+</section>
+
+<!-- ============ LOKACIJE ============ -->
+<section class="loks" id="lokacije">
+  <header class="loks__head">
+    <h2 class="tag"><span>Kje smo</span></h2>
+    <p>Dva lokala v Zasavju. Isti kebab, isti čas.</p>
+  </header>
+
+  <div class="loks__grid">
+    <article class="lok">
+      <p class="lok__no">01</p>
+      <h3>Trbovlje</h3>
+      <p class="lok__addr">Trg revolucije 17D<br>1420 Trbovlje</p>
+      <dl class="hrs">
+        <div><dt>Pon &ndash; pet</dt><dd>9.00 &ndash; 22.00</dd></div>
+        <div><dt>Sobota</dt><dd>12.00 &ndash; 22.00</dd></div>
+        <div><dt>Nedelja</dt><dd>12.00 &ndash; 22.00</dd></div>
+      </dl>
+      <div class="lok__btns">
+        <a class="btn btn--sun" href="tel:+38682055080">0820 55080</a>
+        <a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&amp;query=Trg%20revolucije%2017D%2C%201420%20Trbovlje" target="_blank" rel="noopener">Zemljevid <i aria-hidden="true">&#8599;</i></a>
+      </div>
+    </article>
+
+    <article class="lok">
+      <p class="lok__no">02</p>
+      <h3>Hrastnik</h3>
+      <p class="lok__addr">Trg Franca Kozarja 14<br>1430 Hrastnik</p>
+      <dl class="hrs">
+        <div><dt>Pon &ndash; pet</dt><dd>9.00 &ndash; 22.00</dd></div>
+        <div><dt>Sobota</dt><dd>12.00 &ndash; 22.00</dd></div>
+        <div><dt>Nedelja</dt><dd>12.00 &ndash; 22.00</dd></div>
+      </dl>
+      <div class="lok__btns">
+        <a class="btn btn--sun" href="tel:+38682055080">0820 55080</a>
+        <a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&amp;query=Trg%20Franca%20Kozarja%2014%2C%201430%20Hrastnik" target="_blank" rel="noopener">Zemljevid <i aria-hidden="true">&#8599;</i></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ NOGA ============ -->
+<footer class="foot tex" id="kontakt">
+  <div class="strip" aria-hidden="true">
+    <div class="strip__track" data-strip></div>
+  </div>
+
+  <div class="foot__in">
+    <div class="foot__col">
+      <h2 class="foot__claim">Lačen?<br>Pokliči.</h2>
+      <a class="foot__tel" href="tel:+38682055080">0820 55080</a>
+    </div>
+    <div class="foot__col foot__col--adr">
+      <div>
+        <p class="foot__lbl">Trbovlje</p>
+        <p>Trg revolucije 17D<br>1420 Trbovlje</p>
+      </div>
+      <div>
+        <p class="foot__lbl">Hrastnik</p>
+        <p>Trg Franca Kozarja 14<br>1430 Hrastnik</p>
+      </div>
+      <div>
+        <p class="foot__lbl">Odprto</p>
+        <p>Pon &ndash; pet 9.00 &ndash; 22.00<br>Sob, ned 12.00 &ndash; 22.00</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot__legal">Fast Food LAN, Porič Nihad s.&nbsp;p. &nbsp;&bull;&nbsp; Trg revolucije 17D, 1420 Trbovlje &nbsp;&bull;&nbsp; PE: Fast Food LAN, hitra prehrana, Trg Franca Kozarja 14, 1430 Hrastnik</p>
+
+  <svg class="wordmark" viewBox="0 0 1000 152" aria-hidden="true" focusable="false">
+    <text x="0" y="146" font-size="200" textLength="1000" lengthAdjust="spacingAndGlyphs">FAST FOOD LAN</text>
+  </svg>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
