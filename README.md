@@ -79,7 +79,7 @@ ceniku. Drugi vnos je najbrž mišljen kot cela pizza; če je tako, popravi ime 
 Delovni čas je zapisan na štirih mestih. Če se spremeni, popravi vsa štiri:
 
 1. `index.html` — vrstica pod gumbi v uvodu (`Pon–pet 9.00–22.00 …`)
-2. `index.html` — razdelek `LOKACIJE`, tabela `<dl class="hrs">` pri obeh lokalih
+2. `index.html` — razdelek `LOKACIJE`, tabela `<dl class="hrs">`
 3. `index.html` — noga, stolpec `Odprto`
 4. `js/main.js` — na koncu datoteke:
 
@@ -94,7 +94,7 @@ izračuna iz ure na obiskovalčevi napravi.
 
 Telefonska številka je zapisana kot `tel:+38682055080` (klikljiva povezava) in
 kot vidno besedilo `0820 55080`. Če se spremeni, popravi oboje — v `index.html`
-je na šestih mestih (glava, uvod, novica, obe lokaciji, noga).
+je na petih mestih (glava, uvod, novica, lokacija, noga).
 
 ---
 

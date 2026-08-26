@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Fast Food LAN — Trbovlje & Hrastnik
+   Fast Food LAN — Hrastnik
    Barve in oblike so vzete iz tiskanega cenika: crna, rumena, kremna.
    ========================================================================== */
 
@@ -401,7 +401,7 @@ html.js .reveal.is-in{opacity:1;transform:none}
 
 .loks__grid{
   max-width:var(--wrap);margin:0 auto;
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,34px);
+  display:grid;grid-template-columns:minmax(0,640px);gap:clamp(20px,3vw,34px);
 }
 @media (max-width:760px){.loks__grid{grid-template-columns:1fr}}
 
