@@ -98,19 +98,40 @@ je na šestih mestih (glava, uvod, novica, obe lokaciji, noga).
 
 ---
 
-## 4. Objava na splet
+## 4. Objava na splet (Vercel)
 
-Vse skupaj so navadne datoteke. Na gostovanje naloži celotno mapo:
+Stran gostuje na Vercelu in je povezana z GitHub repozitorijem
+<https://github.com/markoAdza/FastFoodLan>. Ker gre za navadne datoteke, se nič
+ne prevaja — Vercel datoteke samo postreže.
 
+**Vsaka sprememba pride na splet takole:**
+
+```bash
+git add -A
+git commit -m "Objava za oktober"
+git push
 ```
-index.html
-css/
-js/
-assets/
-```
 
-Deluje na vsakem gostovanju (Netlify, GitHub Pages, običajen FTP). Nič ni treba
-prevajati ali nameščati.
+Vercel sam zazna novo objavo na veji `main` in v pol minute posodobi stran.
+Nobenega ročnega nalaganja ni.
+
+Če stran postavljaš na Vercel na novo (Add New → Project → uvozi
+`markoAdza/FastFoodLan`), so pravilne nastavitve:
+
+| Nastavitev | Vrednost |
+|---|---|
+| Framework Preset | **Other** |
+| Root Directory | `./` (privzeto) |
+| Build Command | **pusti prazno** |
+| Output Directory | **pusti prazno** |
+| Install Command | **pusti prazno** |
+
+Pomembno: to ni Next.js projekt kot Ahil Fitnes, zato preset **ne sme** biti
+Next.js — sicer bo Vercel iskal `package.json` in objava se bo ustavila.
+
+Datoteka `vercel.json` ni potrebna. Stran deluje tudi, če jo preprosto naložiš
+na katerokoli drugo gostovanje (Netlify, GitHub Pages, navaden FTP) — potrebne
+so le `index.html`, `css/`, `js/` in `assets/`.
 
 ### Pisave
 
