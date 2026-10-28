@@ -10,3 +10,6 @@ desktop.ini
 
 # Vercel
 .vercel
+
+# ustvari scripts/build-novice.js ob vsaki objavi
+content/novice.json

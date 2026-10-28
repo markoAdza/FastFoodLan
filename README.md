@@ -1,13 +1,18 @@
 # Fast Food LAN — spletna stran
 
-Enostavna statična stran. Ni potrebna nobena namestitev, ni baze podatkov, ni
-prijave. Stran odpreš tako, da dvakrat klikneš na `index.html`.
+Enostavna statična stran brez baze podatkov. Novice se urejajo v brskalniku na
+`/admin` (Decap CMS), vse ostalo neposredno v `index.html`.
 
 ```
-index.html      celotna stran (besedila, cenik, objava meseca, lokacije)
-css/style.css   oblika in barve
-js/main.js      premikajoči se trak, animacije, oznaka Odprto/Zaprto
-assets/         logotip in slika cenika
+index.html                celotna stran (besedila, cenik, lokacije)
+css/style.css             oblika in barve
+js/main.js                trak, animacije, oznaka Odprto/Zaprto, novice
+assets/                   logotip in slika cenika
+assets/novice/            slike in videi iz objav (nalaga jih /admin)
+admin/                    urejevalnik objav (Decap CMS)
+content/novice/           ena datoteka .json = ena objava (piše jih /admin)
+scripts/build-novice.js   zbere objave v content/novice.json (poganja Vercel)
+vercel.json               pove Vercelu, naj ob objavi pozene zgornjo skripto
 ```
 
 Izvirni datoteki `logo.png`, `logo.jpg` in `cenik.jpg` v glavni mapi ostanejo
@@ -15,27 +20,70 @@ nespremenjene — stran uporablja kopiji v mapi `assets/`.
 
 ---
 
-## 1. Objava meseca (novica)
+## 1. Novice (objave)
 
-V `index.html` poišči veliki komentar `OBJAVA MESECA` (približno na sredini
-datoteke). Zamenjaj samo te tri stvari:
+Objave se urejajo na **<https://fast-food-lan.vercel.app/admin/>** — prijava
+z e-pošto in geslom, brez programiranja.
 
-```html
-<p class="post__date">Avgust 2025</p>              <!-- 1. datum -->
-<h3 class="post__h">Sem napiši naslov objave</h3>  <!-- 2. naslov -->
-<div class="post__body">
-  <p>Prvi odstavek …</p>                            <!-- 3. besedilo -->
-  <p>Drugi odstavek …</p>
-</div>
+**Nova objava:** Objave → *Nova Objava* → izpolni polja → **Objavi**. Po
+približno pol minute do minute je objava na strani.
+
+| Polje | Pomen |
+|---|---|
+| Naslov | velik naslov kartice |
+| Datum objave | najnovejši datum je na strani velika kartica |
+| Rumena nalepka | beseda na nalepki v kotu (Novo, Akcija …); prazno = brez nalepke |
+| Slika | JPG/PNG/WEBP do 10 MB; vedno se pokaže cela, nič se ne obreže |
+| Opis slike | ena poved, kaj je na sliki (za slabovidne in iskalnike) |
+| Video | MP4 do 25 MB (≈ 30 s); s sliko vred se pokažeta drug ob drugem |
+| Besedilo | 2–3 kratki odstavki; krepko, ležeče, povezava, seznam |
+| Podpis | vrstica na dnu (privzeto »ekipa Fast Food LAN«) |
+| Prikaži na strani | izklopi, da objavo skriješ, ne da bi jo izbrisal |
+
+Na strani se najnovejša objava prikaže kot velika kartica. Vse starejše
+ostanejo shranjene in so dostopne pod gumbom **Starejše objave (N)**, kjer se
+vsaka razpre s klikom. Vsaka objava ima svojo povezavo, npr.
+`https://fast-food-lan.vercel.app/#objava-2026-10-28-nov-kebab-xxl`, ki odpre
+točno to objavo (tudi če je v arhivu).
+
+Video naj bo kratek in stisnjen — telefonski posnetek 30 s v 1080p je običajno
+okoli 20 MB. Daljše videe je bolje objaviti na Facebooku in v objavo dati
+povezavo.
+
+### Prijava v /admin — enkratna nastavitev (DecapBridge)
+
+Urejevalnik shranjuje objave neposredno v GitHub repozitorij. Da se lastnik
+lahko prijavi z e-pošto in geslom (brez GitHub računa), skrbi brezplačna
+storitev [DecapBridge](https://decapbridge.com):
+
+1. Registriraj se na <https://decapbridge.com/auth/signup>.
+2. *Add site* → ponudnik **GitHub**, repozitorij `markoAdza/FastFoodLan`.
+3. Na GitHubu ustvari *fine-grained* žeton (Settings → Developer settings →
+   Personal access tokens → Fine-grained), omejen samo na repozitorij
+   `FastFoodLan`, z dovoljenjem **Contents: Read and write**. Prilepi ga v
+   DecapBridge.
+4. Login URL: `https://fast-food-lan.vercel.app/admin/index.html`,
+   način prijave **Classic** (e-pošta + geslo).
+5. Klikni *Create site*. DecapBridge pokaže izsek `backend: …` — z njim
+   zamenjaj blok `backend:` na vrhu `admin/config.yml` (tam, kjer piše
+   `ZAMENJAJ`), commit in push.
+6. *Manage collaborators* → vpiši e-pošto lastnika → povabilo. Lastnik po
+   e-pošti nastavi geslo in se lahko prijavi na `/admin`.
+
+Vse spremembe v gitu bodo podpisane z imenom lastnika žetona.
+
+### Preizkus na lastnem računalniku
+
+```bash
+npx decap-server                 # v enem terminalu (lokalni "backend")
+npx serve .                      # v drugem terminalu
 ```
 
-Nasveti:
-
-- Odstavkov je lahko en, dva ali tri. Vsak odstavek naj bo v svojem `<p> … </p>`.
-- Rumeno nalepko `Novo` lahko zamenjaš z drugo besedo
-  (`<span class="sticker">Novo</span>`) ali celo vrstico izbrišeš.
-- Ničesar drugega (imen razredov, oklepajev, oznak) ne spreminjaj.
-- Če v besedilu potrebuješ znak `<` ali `&`, napiši `&lt;` oziroma `&amp;`.
+Odpri `http://localhost:3000/admin/` → *Prijava* (brez gesla). Objave se
+shranjujejo neposredno v mapo `content/novice/`. Nato
+`node scripts/build-novice.js` in osveži `http://localhost:3000`.
+(Če `index.html` odpreš z dvoklikom, novic ne vidiš — brskalnik datoteke
+`content/novice.json` z diska ne prebere; vse ostalo deluje.)
 
 ---
 
@@ -94,7 +142,7 @@ izračuna iz ure na obiskovalčevi napravi.
 
 Telefonska številka je zapisana kot `tel:+38682055080` (klikljiva povezava) in
 kot vidno besedilo `0820 55080`. Če se spremeni, popravi oboje — v `index.html`
-je na petih mestih (glava, uvod, novica, lokacija, noga).
+je na petih mestih (glava, uvod, novice, lokacija, noga).
 
 ---
 
@@ -102,7 +150,11 @@ je na petih mestih (glava, uvod, novica, lokacija, noga).
 
 Stran gostuje na Vercelu in je povezana z GitHub repozitorijem
 <https://github.com/markoAdza/FastFoodLan>. Ker gre za navadne datoteke, se nič
-ne prevaja — Vercel datoteke samo postreže.
+ne prevaja — Vercel le pozene `scripts/build-novice.js` (nastavljeno v
+`vercel.json`), ki zbere novice, in datoteke postreže.
+
+Objava v `/admin` je prav tako commit na `main`, zato se stran posodobi enako
+kot pri ročnem pushu.
 
 **Vsaka sprememba pride na splet takole:**
 
@@ -122,16 +174,15 @@ Nobenega ročnega nalaganja ni.
 |---|---|
 | Framework Preset | **Other** |
 | Root Directory | `./` (privzeto) |
-| Build Command | **pusti prazno** |
-| Output Directory | **pusti prazno** |
+| Build Command | **pusti prazno** (vzame se iz `vercel.json`) |
+| Output Directory | **pusti prazno** (vzame se iz `vercel.json`) |
 | Install Command | **pusti prazno** |
 
 Pomembno: to ni Next.js projekt kot Ahil Fitnes, zato preset **ne sme** biti
 Next.js — sicer bo Vercel iskal `package.json` in objava se bo ustavila.
 
-Datoteka `vercel.json` ni potrebna. Stran deluje tudi, če jo preprosto naložiš
-na katerokoli drugo gostovanje (Netlify, GitHub Pages, navaden FTP) — potrebne
-so le `index.html`, `css/`, `js/` in `assets/`.
+Na drugem gostovanju (Netlify, GitHub Pages …) pred objavo poženi
+`node scripts/build-novice.js`, sicer razdelek Novice ostane prazen.
 
 ### Pisave
 
@@ -143,8 +194,8 @@ sistemske pisave — stran ostane povsem berljiva, le videz je nekoliko drugače
 
 ## 5. Kaj je še vgrajeno
 
-- **Deluje brez JavaScripta.** Cenik, novica, lokacije in kontakt so navaden
-  HTML. Brez JavaScripta manjka le premikajoči se trak in animacije.
+- **Deluje brez JavaScripta.** Cenik, lokacije in kontakt so navaden HTML.
+  Brez JavaScripta manjkajo premikajoči se trak, animacije in novice.
 - **Manj gibanja.** Če ima obiskovalec v napravi vklopljeno nastavitev
   »zmanjšaj gibanje«, se trak ustavi in se ga da povleči s prstom, animacije pa
   se izklopijo.

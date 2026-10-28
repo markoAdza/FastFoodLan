@@ -1,0 +1,118 @@
+# ==========================================================================
+#  Urejevalnik objav (Decap CMS) — odpre se na /admin/
+#  Vsaka objava se shrani v content/novice/ kot ena datoteka, slike in
+#  videi pa v assets/novice/. Vercel nato v pol minute posodobi stran.
+# ==========================================================================
+
+# Prijava prek DecapBridge (e-posta + geslo). Ves blok "backend" zamenjaj
+# z izsekom, ki ga ustvari DecapBridge ob dodajanju strani (glej README).
+backend:
+  name: git-gateway
+  repo: markoAdza/FastFoodLan
+  branch: main
+  identity_url: https://auth.decapbridge.com/sites/ZAMENJAJ-Z-ID-STRANI   # ZAMENJAJ
+  gateway_url: https://gateway.decapbridge.com
+  commit_messages:
+    create: 'Nova objava: {{slug}}'
+    update: 'Uredi objavo: {{slug}}'
+    delete: 'Izbrisi objavo: {{slug}}'
+    uploadMedia: 'Nalozi {{path}}'
+    deleteMedia: 'Izbrisi {{path}}'
+
+# Samo za preizkus na lastnem racunalniku (npx decap-server), na spletu se ne uporablja.
+local_backend: true
+
+locale: sl
+site_url: https://fast-food-lan.vercel.app
+display_url: https://fast-food-lan.vercel.app
+logo_url: /assets/logo.png
+
+media_folder: assets/novice
+public_folder: /assets/novice
+
+collections:
+  - name: novice
+    label: Objave
+    label_singular: Objava
+    description: >-
+      Na strani se kot velika kartica pokaže najnovejša objava, starejše
+      ostanejo v arhivu pod gumbom »Starejše objave«.
+    folder: content/novice
+    format: json
+    extension: json
+    create: true
+    delete: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    identifier_field: naslov
+    summary: "{{datum | date('D. M. YYYY')}} — {{naslov}}"
+    sortable_fields: ['datum', 'naslov']
+    view_filters:
+      - label: Skrite
+        field: objavljeno
+        pattern: false
+    fields:
+      - name: naslov
+        label: Naslov
+        widget: string
+        hint: Kratko in udarno, npr. »Nov kebab krožnik XXL«.
+
+      - name: datum
+        label: Datum objave
+        widget: datetime
+        format: 'YYYY-MM-DD'
+        date_format: 'D. M. YYYY'
+        time_format: false
+        hint: Najnovejši datum je na strani prikazan kot glavna objava.
+
+      - name: nalepka
+        label: Rumena nalepka
+        widget: string
+        required: false
+        default: Novo
+        hint: Beseda na rumeni nalepki v kotu (npr. Novo, Akcija, Praznik). Pusti prazno, če je ne želiš.
+
+      - name: slika
+        label: Slika
+        widget: image
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 10485760
+        hint: JPG, PNG ali WEBP, največ 10 MB.
+
+      - name: slika_opis
+        label: Opis slike
+        widget: string
+        required: false
+        hint: Ena kratka poved, kaj je na sliki (za slepe in slabovidne ter iskalnike).
+
+      - name: video
+        label: Video
+        widget: file
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 26214400
+        hint: MP4, največ 25 MB (približno 30 sekund). Če dodaš še sliko, se prikažeta drug ob drugem.
+
+      - name: besedilo
+        label: Besedilo
+        widget: markdown
+        modes: ['rich_text']
+        buttons: ['bold', 'italic', 'link', 'bulleted-list']
+        editor_components: []
+        hint: Dva ali trije kratki odstavki so dovolj. Nov odstavek = prazna vrstica (Enter).
+
+      - name: podpis
+        label: Podpis
+        widget: string
+        required: false
+        default: ekipa Fast Food LAN
+
+      - name: objavljeno
+        label: Prikaži na strani
+        widget: boolean
+        default: true
+        hint: Izklopi, če želiš objavo skriti, ne da bi jo izbrisal.

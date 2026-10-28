@@ -1,7 +1,7 @@
 /* ==========================================================================
    Fast Food LAN — vsa interaktivnost strani.
-   Stran deluje tudi brez JavaScripta: cenik, novice in lokacije so navadni
-   HTML. JavaScript doda samo premikajoci trak, animacije in oznako Odprto.
+   Stran deluje tudi brez JavaScripta: cenik in lokacije so navadni HTML.
+   JavaScript doda premikajoci trak, animacije, oznako Odprto in novice.
    ========================================================================== */
 (function () {
   'use strict';
@@ -181,6 +181,145 @@
     window.setTimeout(showAll, 2500);
   } else {
     showAll();
+  }
+
+  /* --------------------------------------------------------------- novice ---
+     Objave se urejajo na /admin. Ob vsaki objavi Vercel pozene
+     scripts/build-novice.js, ki jih zbere v content/novice.json (najnovejsa
+     prva). Prva postane velika kartica, ostale gredo v arhiv pod gumbom.    */
+  var latestBox = document.querySelector('[data-novice-latest]');
+  var emptyNote = document.querySelector('[data-novice-empty]');
+  var arhivBtn = document.querySelector('[data-arhiv-toggle]');
+  var arhiv = document.querySelector('[data-arhiv]');
+
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text) node.textContent = text;
+    return node;
+  }
+
+  /* mini: kartica v arhivu — datum in naslov sta ze v vrstici nad njo */
+  function renderPost(post, mini) {
+    var art = el('article', mini ? 'post post--mini' : 'post');
+
+    if (!mini && post.nalepka) art.appendChild(el('span', 'sticker', post.nalepka));
+
+    if (post.slika || post.video) {
+      var fig = el('figure', 'post__media' + (post.slika && post.video ? ' post__media--duo' : ''));
+      if (post.slika) {
+        var img = el('img');
+        img.src = post.slika;
+        img.alt = post.slika_opis || '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        fig.appendChild(img);
+      }
+      if (post.video) {
+        var vid = el('video');
+        vid.src = post.video;
+        vid.controls = true;
+        vid.playsInline = true;
+        vid.preload = 'metadata';
+        fig.appendChild(vid);
+      }
+      art.appendChild(fig);
+    }
+
+    if (!mini) {
+      art.appendChild(el('p', 'post__date', post.datumLabel));
+      art.appendChild(el('h3', 'post__h', post.naslov));
+    }
+
+    /* html je ze ociscen v build-novice.js (vse besedilo pobegnjeno) */
+    var body = el('div', 'post__body');
+    body.innerHTML = post.html || '';
+    art.appendChild(body);
+
+    if (post.podpis) art.appendChild(el('p', 'post__sign', '— ' + post.podpis));
+    return art;
+  }
+
+  function renderArchiveItem(post) {
+    var item = el('details', 'arhiv__item');
+    item.id = 'objava-' + post.slug;
+
+    var row = el('summary', 'arhiv__row');
+    row.appendChild(el('span', 'arhiv__date', post.datumLabel));
+    row.appendChild(el('span', 'arhiv__title', post.naslov));
+    var chips = el('span', 'arhiv__chips');
+    if (post.slika) chips.appendChild(el('span', 'chip', 'Foto'));
+    if (post.video) chips.appendChild(el('span', 'chip', 'Video'));
+    row.appendChild(chips);
+    var plus = el('span', 'arhiv__plus');
+    plus.setAttribute('aria-hidden', 'true');
+    row.appendChild(plus);
+    item.appendChild(row);
+
+    /* vsebino (slike, video) nalozimo sele, ko se vrstica prvic odpre */
+    item.addEventListener('toggle', function () {
+      if (item.open && !item.hasAttribute('data-ready')) {
+        item.setAttribute('data-ready', '');
+        item.appendChild(renderPost(post, true));
+      }
+    });
+    return item;
+  }
+
+  function setArchive(open) {
+    arhiv.hidden = !open;
+    arhivBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    arhivBtn.querySelector('[data-arhiv-label]').textContent =
+      open ? 'Skrij starejše objave' : 'Starejše objave';
+  }
+
+  /* povezava #objava-... odpre pravo objavo, tudi ce je v arhivu */
+  function openFromHash() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    if (id.indexOf('objava-') !== 0) return;
+    var target = document.getElementById(id);
+    if (!target) return;
+    if (arhiv.contains(target)) {
+      setArchive(true);
+      target.open = true;
+    }
+    target.scrollIntoView({ block: 'start' });
+  }
+
+  function showPosts(posts) {
+    if (!posts.length) {
+      emptyNote.hidden = false;
+      return;
+    }
+
+    var latest = renderPost(posts[0], false);
+    latest.id = 'objava-' + posts[0].slug;
+    latestBox.appendChild(latest);
+
+    var older = posts.slice(1);
+    if (older.length) {
+      older.forEach(function (post) { arhiv.appendChild(renderArchiveItem(post)); });
+      arhivBtn.querySelector('[data-arhiv-count]').textContent = '(' + older.length + ')';
+      arhivBtn.hidden = false;
+      arhivBtn.addEventListener('click', function () { setArchive(arhiv.hidden); });
+    }
+
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+  }
+
+  if (latestBox && emptyNote && arhivBtn && arhiv) {
+    if (window.fetch) {
+      fetch('content/novice.json', { cache: 'no-cache' })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.status);
+          return res.json();
+        })
+        .then(function (posts) { showPosts(Array.isArray(posts) ? posts : []); })
+        .catch(function () { emptyNote.hidden = false; });
+    } else {
+      emptyNote.hidden = false;
+    }
   }
 
   /* ------------------------------------------------------ Odprto / Zaprto ---

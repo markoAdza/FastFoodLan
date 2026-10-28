@@ -84,7 +84,7 @@ section[id],main[id]{scroll-margin-top:calc(var(--bar-h) + 20px)}
 .btn--sun:hover{background:var(--sun-hi);transform:translateY(-2px)}
 .btn--ink{background:var(--ink);color:var(--chalk)}
 .btn--ink:hover{transform:translateY(-2px)}
-.btn--line{border-color:rgba(245,241,230,.32);color:var(--chalk)}
+.btn--line{background:transparent;border-color:rgba(245,241,230,.32);color:var(--chalk)}
 .btn--line:hover{border-color:var(--sun);color:var(--sun);transform:translateY(-2px)}
 
 /* --- rumena oznaka s potezo copica -------------------------------------- */
@@ -391,6 +391,90 @@ html.js .reveal.is-in{opacity:1;transform:none}
   margin:22px 0 0;font-weight:600;font-size:14px;letter-spacing:.16em;
   text-transform:uppercase;color:rgba(245,241,230,.42);
 }
+.post__body ul{
+  margin:0 0 12px;padding-left:1.1em;font-size:clamp(17px,1.5vw,20px);line-height:1.5;
+  color:rgba(245,241,230,.75);max-width:54ch;
+}
+.post__body li::marker{color:var(--sun)}
+.post__body strong{color:var(--chalk);font-weight:700}
+.post__body a{color:var(--sun);border-bottom:2px solid rgba(249,205,30,.4)}
+.post__body a:hover{border-bottom-color:var(--sun)}
+
+/* slika / video — kot fotografija, nalepljena naravnost na nagnjeno kartico */
+.post__media{display:grid;gap:12px;margin:0 0 26px;transform:rotate(1deg)}
+.post__media img,.post__media video{
+  display:block;max-width:100%;max-height:600px;
+  background:#000;border:2.5px solid rgba(245,241,230,.13);border-radius:12px;
+}
+/* slika vedno cela (tudi plakat ali letak), zato je ne obrezemo */
+.post__media img{width:auto;justify-self:center}
+.post__media video{width:100%}
+@media (min-width:640px){
+  .post__media--duo{grid-template-columns:1fr 1fr}
+  .post__media--duo img,.post__media--duo video{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+  .post__media--duo video{object-fit:contain}
+}
+
+.post--mini{
+  margin:4px 0 24px;transform:none;
+  padding:clamp(20px,3vw,32px);box-shadow:8px 9px 0 rgba(0,0,0,.32);
+}
+.post--mini .post__media{transform:none}
+.post--mini .post__media img,.post--mini .post__media video{max-height:440px}
+
+.novice__empty{
+  margin:30px 0 0;padding:clamp(22px,3vw,32px);
+  border:2.5px dashed rgba(245,241,230,.2);border-radius:18px;
+  font-size:clamp(17px,1.5vw,20px);color:rgba(245,241,230,.62);
+}
+.novice__empty[hidden]{display:none}
+
+/* --- arhiv starejsih objav ---------------------------------------------- */
+.arhiv-btn{margin-top:clamp(40px,5vw,56px)}
+.arhiv-btn[hidden]{display:none}
+.arhiv-btn b{color:var(--sun);font-weight:700}
+.arhiv{margin-top:22px;border-top:1px solid rgba(245,241,230,.13)}
+.arhiv[hidden]{display:none}
+.arhiv__item{border-bottom:1px solid rgba(245,241,230,.13)}
+.arhiv__row{
+  display:grid;grid-template-columns:150px minmax(0,1fr) auto 30px;
+  align-items:center;gap:18px;padding:16px 0;
+  cursor:pointer;list-style:none;
+}
+.arhiv__row::-webkit-details-marker{display:none}
+.arhiv__date{
+  font-weight:600;font-size:13px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--sun);
+}
+.arhiv__title{
+  font-family:var(--disp);font-size:clamp(20px,2.2vw,27px);line-height:1.05;
+  text-transform:uppercase;transition:color .18s ease;
+}
+.arhiv__row:hover .arhiv__title{color:var(--sun)}
+.arhiv__chips{display:flex;gap:6px}
+.chip{
+  font-weight:700;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;color:rgba(245,241,230,.65);
+  box-shadow:inset 0 0 0 1.5px rgba(245,241,230,.28);
+}
+.arhiv__plus{
+  position:relative;width:30px;height:30px;border-radius:50%;
+  background:var(--sun);transition:transform .22s ease;
+}
+.arhiv__plus::before,.arhiv__plus::after{
+  content:"";position:absolute;left:50%;top:50%;
+  width:12px;height:2.5px;margin:-1.25px 0 0 -6px;
+  background:var(--ink);border-radius:2px;
+}
+.arhiv__plus::after{transform:rotate(90deg)}
+.arhiv__item[open] .arhiv__plus{transform:rotate(45deg)}
+
+@media (max-width:560px){
+  .arhiv__row{grid-template-columns:minmax(0,1fr) 30px;gap:4px 14px}
+  .arhiv__chips{display:none}
+  .arhiv__plus{grid-column:2;grid-row:1 / span 2}
+}
+
 .novice__hint{margin:34px 0 0;font-size:16px;color:rgba(245,241,230,.5)}
 .novice__hint a{color:var(--sun);border-bottom:2px solid rgba(249,205,30,.4)}
 
@@ -485,4 +569,5 @@ html.js .reveal.is-in{opacity:1;transform:none}
   .card:hover{transform:translateY(-4px)}
   html.js .reveal{opacity:1;transform:none;transition:none}
   .btn:hover,.foot__tel:hover{transform:none}
+  .arhiv__plus{transition:none}
 }
