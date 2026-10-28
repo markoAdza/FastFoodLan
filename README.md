@@ -65,8 +65,8 @@ storitev [DecapBridge](https://decapbridge.com):
 4. Login URL: `https://fast-food-lan.vercel.app/admin/index.html`,
    način prijave **Classic** (e-pošta + geslo).
 5. Klikni *Create site*. DecapBridge pokaže izsek `backend: …` — z njim
-   zamenjaj blok `backend:` na vrhu `admin/config.yml` (tam, kjer piše
-   `ZAMENJAJ`), commit in push.
+   zamenjaj blok `backend:` na vrhu `admin/config.yml`, commit in push.
+   (Že narejeno — stran je povezana z DecapBridge.)
 6. *Manage collaborators* → vpiši e-pošto lastnika → povabilo. Lastnik po
    e-pošti nastavi geslo in se lahko prijavi na `/admin`.
 
