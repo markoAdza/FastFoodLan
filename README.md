@@ -31,11 +31,11 @@ približno pol minute do minute je objava na strani.
 | Polje | Pomen |
 |---|---|
 | Naslov | velik naslov kartice |
-| Datum objave | najnovejši datum je na strani velika kartica |
+| Datum objave | datum in ura (samodejno zdaj); najnovejša objava je velika kartica |
 | Rumena nalepka | beseda na nalepki v kotu (Novo, Akcija …); prazno = brez nalepke |
 | Slika | JPG/PNG/WEBP do 10 MB; vedno se pokaže cela, nič se ne obreže |
 | Opis slike | ena poved, kaj je na sliki (za slabovidne in iskalnike) |
-| Video | MP4 do 25 MB (≈ 30 s); s sliko vred se pokažeta drug ob drugem |
+| Video | MP4 ali GIF do 25 MB (≈ 30 s); s sliko vred se pokažeta drug ob drugem |
 | Besedilo | 2–3 kratki odstavki; krepko, ležeče, povezava, seznam |
 | Podpis | vrstica na dnu (privzeto »ekipa Fast Food LAN«) |
 | Prikaži na strani | izklopi, da objavo skriješ, ne da bi jo izbrisal |

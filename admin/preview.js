@@ -35,7 +35,9 @@
       if (slika || video) {
         media = h('figure', { className: 'post__media' + (slika && video ? ' post__media--duo' : '') },
           slika ? h('img', { src: slika, alt: get('slika_opis') || '' }) : null,
-          video ? h('video', { src: video, controls: true, playsInline: true, preload: 'metadata' }) : null);
+          video && /\.gif$/i.test(get('video'))
+            ? h('img', { src: video, alt: get('slika_opis') || '' })
+            : video ? h('video', { src: video, controls: true, playsInline: true, preload: 'metadata' }) : null);
       }
 
       return h('section', { className: 'novice tex', style: { minHeight: '100vh' } },

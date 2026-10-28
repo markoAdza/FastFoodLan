@@ -127,7 +127,8 @@ files.forEach(function (file) {
     return;
   }
 
-  var datum = typeof data.datum === 'string' ? data.datum.slice(0, 10) : '';
+  /* "2026-10-28T18:24" (starejse objave imajo samo "2026-10-28") */
+  var datum = typeof data.datum === 'string' ? data.datum.trim() : '';
   posts.push({
     slug: file.replace(/\.json$/i, '').replace(/[^\w-]/g, '-'),
     naslov: String(data.naslov),
@@ -142,7 +143,8 @@ files.forEach(function (file) {
   });
 });
 
-/* najnovejsa prva; pri enakem datumu odloci ime datoteke */
+/* najnovejsa prva — datum z uro se da primerjati kar kot besedilo;
+   pri popolnoma enakem casu odloci ime datoteke */
 posts.sort(function (a, b) {
   if (a.datum !== b.datum) return a.datum < b.datum ? 1 : -1;
   return a.slug < b.slug ? 1 : -1;

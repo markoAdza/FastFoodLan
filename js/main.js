@@ -199,6 +199,10 @@
     return node;
   }
 
+  function isGif(src) {
+    return /\.gif$/i.test(src);
+  }
+
   /* mini: kartica v arhivu — datum in naslov sta ze v vrstici nad njo */
   function renderPost(post, mini) {
     var art = el('article', mini ? 'post post--mini' : 'post');
@@ -215,7 +219,14 @@
         img.decoding = 'async';
         fig.appendChild(img);
       }
-      if (post.video) {
+      /* GIF ni pravi video — <video> ga ne predvaja, <img> ga animira */
+      if (post.video && isGif(post.video)) {
+        var gif = el('img');
+        gif.src = post.video;
+        gif.alt = post.slika_opis || '';
+        gif.loading = 'lazy';
+        fig.appendChild(gif);
+      } else if (post.video) {
         var vid = el('video');
         vid.src = post.video;
         vid.controls = true;
@@ -249,7 +260,7 @@
     row.appendChild(el('span', 'arhiv__title', post.naslov));
     var chips = el('span', 'arhiv__chips');
     if (post.slika) chips.appendChild(el('span', 'chip', 'Foto'));
-    if (post.video) chips.appendChild(el('span', 'chip', 'Video'));
+    if (post.video) chips.appendChild(el('span', 'chip', isGif(post.video) ? 'GIF' : 'Video'));
     row.appendChild(chips);
     var plus = el('span', 'arhiv__plus');
     plus.setAttribute('aria-hidden', 'true');

@@ -60,10 +60,10 @@ collections:
       - name: datum
         label: Datum objave
         widget: datetime
-        format: 'YYYY-MM-DD'
+        format: 'YYYY-MM-DDTHH:mm'
         date_format: 'D. M. YYYY'
-        time_format: false
-        hint: Najnovejši datum je na strani prikazan kot glavna objava.
+        time_format: 'HH:mm'
+        hint: Najnovejša objava (datum in ura) je na strani prikazana kot glavna. Na strani se izpiše samo datum.
 
       - name: nalepka
         label: Rumena nalepka
@@ -96,7 +96,7 @@ collections:
         media_library:
           config:
             max_file_size: 26214400
-        hint: MP4, največ 25 MB (približno 30 sekund). Če dodaš še sliko, se prikažeta drug ob drugem.
+        hint: MP4 ali GIF, največ 25 MB (približno 30 sekund). Če dodaš še sliko, se prikažeta drug ob drugem.
 
       - name: besedilo
         label: Besedilo
